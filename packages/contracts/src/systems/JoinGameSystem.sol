@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.0;
-import { addressToEntity, getAddressByID } from "solecs/utils.sol";
+import { addressToEntity, getAddressById } from "solecs/utils.sol";
 import { System, IWorld } from "solecs/System.sol";
 import { PlayerComponent, ID as PlayerComponentID } from "components/PlayerComponent.sol";
 import { PositionComponent, ID as PositionComponentID, Coord } from "components/PositionComponent.sol";
