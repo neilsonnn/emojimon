@@ -18,7 +18,7 @@ contract MoveSystem is System {
     uint256 entityId = addressToEntity(msg.sender);
 
     MovableComponent movable = MovableComponent(getAddressById(components, MovableComponentID));
-    require(movable.has(entityID), "cannot move");
+    require(movable.has(entityId), "cannot move");
 
     PositionComponent position = PositionComponent(getAddressById(components, PositionComponentID));
     position.set(entityId, coord);
