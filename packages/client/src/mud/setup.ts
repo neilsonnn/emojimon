@@ -7,6 +7,7 @@ import { SystemAbis } from "contracts/types/SystemAbis.mjs";
 import { EntityID, getComponentValue} from "@latticexyz/recs";
 import { createFaucetService, SingletonID } from "@latticexyz/network";
 import { ethers } from "ethers";
+import { uuid } from "@latticexyz/utils";
 
 export type SetupResult = Awaited<ReturnType<typeof setup>>;
 
@@ -61,10 +62,53 @@ export const setup = async () => {
 
 
 
+  const joinGame = async (x: number, y: number) => {
+    const canJoinGame =
+      getComponentValue(components.Player, playerEntity)?.value !== true;
+
+    if (!canJoinGame) {
+      throw new Error("already joined game");
+    }
+
+    const positionId = uuid();
+    components.Position.addOverride(positionId, {
+      entity: playerEntity,
+      value: { x, y },
+    });
+    const playerId = uuid();
+    components.Player.addOverride(playerId, {
+      entity: playerEntity,
+      value: { value: true },
+    });
+
+    try {
+
+      const tx = await result.systems["system.JoinGame"].executeTyped({ x, y });
+      await tx.wait();
+    
+    } finally {
+      components.Position.removeOverride(positionId);
+      components.Player.removeOverride(playerId);
+    }
+    
+  };
+
   const moveTo = async(x: number, y: number) => {
 
-    const tx = await result.systems["system.Move"].executeTyped({x , y});
-    await tx.wait();
+    const positionID = uuid();
+    components.Position.addOverride(positionID, {
+      entity : playerEntity,
+      value: {x,y},
+    });
+
+    try{
+      const tx = await result.systems["system.Move"].executeTyped({x , y});
+      await tx.wait();
+    } finally {
+      components.Position.removeOverride(positionID);
+    }
+
+
 
   }
 
@@ -90,6 +134,7 @@ export const setup = async () => {
     api:{
       moveTo,
       moveBy,
+      joinGame,
     },
   };
 };
