@@ -3,6 +3,7 @@ pragma solidity >=0.8.0;
 import { System, IWorld } from "solecs/System.sol";
 import { getAddressById, addressToEntity } from "solecs/utils.sol";
 import { PositionComponent, ID as PositionComponentID, Coord } from "components/PositionComponent.sol";
+import { MovableComponent, ID as MovableComponentID } from "components/MovableComponent.sol";
 
 uint256 constant ID = uint256(keccak256("system.Move"));
 
