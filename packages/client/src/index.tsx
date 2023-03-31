@@ -2,7 +2,7 @@ import "tailwindcss/tailwind.css";
 import "react-toastify/dist/ReactToastify.css";
 import ReactDOM from "react-dom/client";
 import { ToastContainer } from "react-toastify";
-// import { App } from "./App";
+import { App } from "./App";
 import { AppUnity } from "./AppUnity";
 import { setup } from "./mud/setup";
 import { MUDProvider } from "./MUDContext";
@@ -16,7 +16,7 @@ const root = ReactDOM.createRoot(rootElement);
 setup().then((result) => {
   root.render(
     <MUDProvider {...result}>
-      <AppUnity />
+      <App />
       <ToastContainer position="bottom-right" draggable={false} theme="dark" />
       {import.meta.env.DEV ? <ComponentBrowser /> : null}
     </MUDProvider>

@@ -39,6 +39,7 @@ export const AppUnity = () => {
     [devicePixelRatio]
   );
 
+
   return (
     <Unity
       unityProvider={unityProvider}
@@ -48,4 +49,45 @@ export const AppUnity = () => {
   );
 
   return <Unity unityProvider={unityProvider} />;
+}
+
+
+
+
+
+
+
+
+
+
+function coordUpdate(x:number,y:number) {
+  return {
+
+  };
+}
+
+function intUpdate(newValue:number) {
+    return {
+        
+    };
+}
+
+function stateChange() {
+    return {xxx: 0};
+}
+
+const unityInterface: { [K: string]: Function } = {
+  CoordUpdate: coordUpdate,
+  IntUpdate: intUpdate,
+  xxx: stateChange,   // this allows you to use a different value for the argument
+  yyy: stateChange,   // ... to use multiple names for the same function
+                     // ... and to handle gracefully the calls of non-existing functions 
+};
+
+export function unityMethod(name: string) {
+  if (unityInterface[name]) {
+    return unityInterface[name]();
+ }
+
+ throw new Error(`Method '${name}' is not implemented.`);
 }
